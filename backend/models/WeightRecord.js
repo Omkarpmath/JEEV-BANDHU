@@ -82,7 +82,7 @@ class WeightRecord {
         }
 
         // Get all animals for this farmer
-        const animals = await db.collection('animals').find({ farmerId: new ObjectId(farmerId) }).toArray();
+        const animals = await db.collection('animals').find({ ownerId: new ObjectId(farmerId) }).toArray();
 
         if (animals.length === 0) return 0;
 
@@ -119,7 +119,7 @@ class WeightRecord {
         }
 
         // Get all animals for this farmer
-        const animals = await db.collection('animals').find({ farmerId: new ObjectId(farmerId) }).toArray();
+        const animals = await db.collection('animals').find({ ownerId: new ObjectId(farmerId) }).toArray();
         const animalIds = animals.map(a => a._id);
 
         // Get all weight records in the period

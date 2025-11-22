@@ -32,6 +32,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -48,8 +49,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -63,7 +69,8 @@
                 <div class="flex items-center space-x-6">
                     <a href="/dashboard" class="text-gray-700 hover:text-emerald-600 transition">Dashboard</a>
                     <a href="/animals/add" class="text-gray-700 hover:text-emerald-600 transition">Add Animal</a>
-                    <a href="/guide/medicine-guide" class="text-gray-700 hover:text-emerald-600 transition">Medicine Guide</a>
+                    <a href="/guide/medicine-guide" class="text-gray-700 hover:text-emerald-600 transition">Medicine
+                        Guide</a>
                     <a href="/list-product" class="text-gray-700 hover:text-emerald-600 transition">List Product</a>
                     <a href="/my-products" class="text-gray-700 hover:text-emerald-600 transition">My Products</a>
                     <a href="/orders/sales" class="text-gray-700 hover:text-emerald-600 transition">Sales</a>
@@ -102,7 +109,7 @@
         <!-- Symptom Selection -->
         <div class="card mb-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Select Symptoms</h2>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="symptomGrid">
                 <div class="symptom-card card bg-white" data-symptom="Loss of appetite">
                     <div class="flex items-center">
@@ -205,16 +212,15 @@
                 </div>
             </div>
 
-            <div class="mt-8 flex justify-center">
+            <div class="mt-6 flex justify-center">
                 <button id="diagnoseBtn" disabled
-                    class="px-10 py-5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-300 font-bold text-2xl shadow-2xl hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 flex items-center gap-3 border-4 border-emerald-800"
-                    style="background-color: #059669 !important; border-color: #065f46 !important;">
-                    <span class="text-4xl">🩺</span>
-                    <span class="font-bold" style="color: white !important;">Diagnose Disease</span>
+                    class="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                    <span class="text-2xl">🩺</span>
+                    <span>Diagnose Disease</span>
                 </button>
             </div>
 
-            <p id="selectedCount" class="text-center text-gray-600 mt-4">Select at least one symptom</p>
+            <p id="selectedCount" class="text-center text-gray-600 mt-3 text-sm">Select at least one symptom</p>
         </div>
 
         <!-- Loading Indicator -->
@@ -227,22 +233,22 @@
         <!-- Diagnosis Result -->
         <div id="diagnosisResult" class="hidden diagnosis-result">
             <div class="card bg-gradient-to-br from-green-50 to-emerald-100 border-l-4 border-green-500">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">📋 Diagnosis Result</h2>
-                
-                <div class="bg-white rounded-lg p-6 mb-4">
-                    <div class="mb-4">
-                        <p class="text-sm text-gray-600 mb-1">Disease Identified:</p>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">📋 Diagnosis Result</h2>
+
+                <div class="bg-white rounded-lg p-6 mb-6 shadow-sm">
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-600 mb-2 font-semibold">Disease Identified:</p>
                         <h3 id="diseaseName" class="text-3xl font-bold text-emerald-600"></h3>
                     </div>
 
-                    <div class="border-t pt-4 mb-4">
-                        <p class="text-sm text-gray-600 mb-2">Explanation:</p>
-                        <p id="diseaseExplanation" class="text-gray-900"></p>
+                    <div class="border-t pt-6 mb-6">
+                        <p class="text-sm text-gray-600 mb-3 font-semibold">Explanation:</p>
+                        <p id="diseaseExplanation" class="text-gray-900 leading-relaxed"></p>
                     </div>
 
-                    <div class="border-t pt-4">
-                        <p class="text-sm text-gray-600 mb-2">Recommended Treatment:</p>
-                        <p id="treatmentInfo" class="text-gray-900 font-semibold"></p>
+                    <div class="border-t pt-6">
+                        <p class="text-sm text-gray-600 mb-3 font-semibold">Recommended Treatment:</p>
+                        <p id="treatmentInfo" class="text-gray-900 font-semibold leading-relaxed"></p>
                     </div>
                 </div>
 
@@ -294,7 +300,7 @@
         symptomCards.forEach(card => {
             card.addEventListener('click', () => {
                 const symptom = card.dataset.symptom;
-                
+
                 if (card.classList.contains('selected')) {
                     card.classList.remove('selected');
                     selectedSymptoms = selectedSymptoms.filter(s => s !== symptom);

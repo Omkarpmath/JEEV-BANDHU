@@ -284,6 +284,7 @@
         const weightTrends = <% - JSON.stringify(weightTrends) %>;
         const fcrTrends = <% - JSON.stringify(fcrTrends) %>;
         const animalWeights = <% - JSON.stringify(animalWeights) %>;
+        const mortalityTrend = <% - JSON.stringify(mortalityTrend) %>;
 
         // Individual Animal Weights Chart (Bar chart)
         const weightCtx = document.getElementById('weightChart').getContext('2d');
@@ -321,26 +322,45 @@
             }
         });
 
-        // Mortality Chart (sample data)
+        // Mortality Chart (Real data from backend)
         const mortalityCtx = document.getElementById('mortalityChart').getContext('2d');
         new Chart(mortalityCtx, {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                labels: mortalityTrend.map(d => d.month),
                 datasets: [{
-                    label: 'Mortality %',
-                    data: [2.0, 1.5, 1.0, 0.8, 0.5, 0.3],
-                    backgroundColor: '#ef4444'
+                    label: 'Mortality Rate (%)',
+                    data: mortalityTrend.map(d => d.rate),
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderColor: '#ef4444',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
                 plugins: {
-                    legend: { display: true }
+                    legend: { display: true },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function (context) {
+                                const dataIndex = context.dataIndex;
+                                const deaths = mortalityTrend[dataIndex].deaths;
+                                return `Deaths: ${deaths}`;
+                            }
+                        }
+                    }
                 },
                 scales: {
-                    y: { beginAtZero: true }
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Mortality Rate (%)'
+                        }
+                    }
                 }
             }
         });

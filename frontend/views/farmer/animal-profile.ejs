@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= animal.tagId %> - JeevBandhu</title>
+    <title>
+        <%= animal.tagId %> - JeevBandhu
+    </title>
     <link rel="stylesheet" href="/css/output.css">
 </head>
 
@@ -30,16 +32,71 @@
             <a href="/dashboard" class="text-emerald-600 hover:text-emerald-700">← Back to Dashboard</a>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
-            <!-- Left Column: Animal Info -->
-            <div class="md:col-span-1 space-y-6">
-                <div class="card">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                        <%= animal.tagId %>
-                    </h2>
+        <!-- Main Content with Better Visual Balance -->
+        <div class="max-w-6xl mx-auto">
+            <!-- Medical History Section (Center-aligned) -->
+            <div class="mb-8">
+                <div class="card max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">📋 Medical History</h3>
 
-                    <!-- Status Badge -->
-                    <div class="mb-4">
+                    <% if (medicalLogs.length===0) { %>
+                        <div class="text-center py-12 text-gray-500">
+                            <div class="text-5xl mb-3">💊</div>
+                            <p class="text-lg">No medical records yet</p>
+                            <p class="text-sm mt-2">Medical logs will appear here when you add treatments</p>
+                        </div>
+                        <% } else { %>
+                            <div class="space-y-4">
+                                <% medicalLogs.forEach(log=> { %>
+                                    <div
+                                        class="border-2 border-gray-200 rounded-lg p-5 hover:border-emerald-400 transition-all hover:shadow-md">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <h4 class="font-bold text-gray-900 text-lg">
+                                                <%= log.medicineName %>
+                                            </h4>
+                                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                                                <%= new Date(log.administeredAt).toLocaleDateString() %>
+                                            </span>
+                                        </div>
+
+                                        <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                                            <% if (log.dosage) { %>
+                                                <div class="bg-blue-50 p-3 rounded-lg">
+                                                    <span class="text-gray-600 text-xs">Dosage:</span>
+                                                    <p class="font-semibold text-gray-900">
+                                                        <%= log.dosage %>
+                                                    </p>
+                                                </div>
+                                                <% } %>
+
+                                                    <div class="bg-yellow-50 p-3 rounded-lg">
+                                                        <span class="text-gray-600 text-xs">Withdrawal Period:</span>
+                                                        <p class="font-bold text-gray-900">
+                                                            <%= log.withdrawalDays %> days
+                                                        </p>
+                                                    </div>
+                                        </div>
+
+                                        <% if (log.notes) { %>
+                                            <p class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg italic">
+                                                <%= log.notes %>
+                                            </p>
+                                            <% } %>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+
+            <!-- Animal Info Card (Offset to Right for Balance) -->
+            <div class="flex justify-end">
+                <div class="card max-w-md w-full shadow-xl border-2 border-emerald-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">
+                            🐄 <%= animal.tagId %>
+                        </h2>
+                        <!-- Status Badge -->
                         <span class="px-4 py-2 rounded-full text-sm font-semibold
                             <% if (animal.status === 'HEALTHY') { %>bg-green-200 text-green-800<% } %>
                             <% if (animal.status === 'WITHDRAWAL_LOCK') { %>bg-red-200 text-red-800<% } %>
@@ -49,35 +106,43 @@
                     </div>
 
                     <!-- Info Grid -->
-                    <div class="space-y-3 text-sm">
-                        <div>
+                    <div class="space-y-4 text-sm mb-6">
+                        <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
                             <span class="text-gray-600">Species:</span>
-                            <span class="font-semibold ml-2"><%= animal.species %></span>
+                            <span class="font-semibold">
+                                <%= animal.species %>
+                            </span>
                         </div>
 
                         <% if (animal.breed) { %>
-                        <div>
-                            <span class="text-gray-600">Breed:</span>
-                            <span class="font-semibold ml-2"><%= animal.breed %></span>
-                        </div>
-                        <% } %>
+                            <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-gray-600">Breed:</span>
+                                <span class="font-semibold">
+                                    <%= animal.breed %>
+                                </span>
+                            </div>
+                            <% } %>
 
-                        <% if (animal.geneticLineage) { %>
-                        <div>
-                            <span class="text-gray-600">Lineage:</span>
-                            <span class="font-semibold ml-2"><%= animal.geneticLineage %></span>
-                        </div>
-                        <% } %>
+                                <% if (animal.geneticLineage) { %>
+                                    <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+                                        <span class="text-gray-600">Lineage:</span>
+                                        <span class="font-semibold">
+                                            <%= animal.geneticLineage %>
+                                        </span>
+                                    </div>
+                                    <% } %>
                     </div>
 
                     <!-- Health Score -->
-                    <div class="mt-6">
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="text-gray-600">Health Score</span>
-                            <span class="font-bold text-lg"><%= animal.healthScore %>/100</span>
+                    <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-lg border border-blue-200">
+                        <div class="flex justify-between text-sm mb-3">
+                            <span class="text-gray-700 font-semibold">Health Score</span>
+                            <span class="font-bold text-xl">
+                                <%= animal.healthScore %>/100
+                            </span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="h-3 rounded-full
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div class="h-4 rounded-full transition-all
                                 <% if (animal.healthScore >= 70) { %>bg-health-good<% } else if (animal.healthScore >= 40) { %>bg-health-warning<% } else { %>bg-health-danger<% } %>"
                                 style="width: <%= animal.healthScore %>%">
                             </div>
@@ -85,68 +150,27 @@
                     </div>
 
                     <!-- Withdrawal Warning -->
-                    <% if (animal.status === 'WITHDRAWAL_LOCK' && daysRemaining > 0) { %>
-                    <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
-                        <strong>🔒 Withdrawal Period</strong>
-                        <p class="text-sm mt-1">
-                            <%= daysRemaining %> day(s) remaining until safe for production
-                        </p>
-                    </div>
-                    <% } %>
-
-                    <!-- Actions -->
-                    <div class="mt-6 space-y-2">
-                        <a href="/animals/<%= animal._id %>/add-medicine" class="block text-center btn-primary">
-                            Add Medical Log
-                        </a>
-                        <button onclick="deleteAnimal()" class="w-full btn-danger">
-                            Delete Animal
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column: Medical History -->
-            <div class="md:col-span-2">
-                <div class="card">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Medical History</h3>
-
-                    <% if (medicalLogs.length === 0) { %>
-                    <div class="text-center py-8 text-gray-500">
-                        <p>No medical records yet</p>
-                    </div>
-                    <% } else { %>
-                    <div class="space-y-4">
-                        <% medicalLogs.forEach(log => { %>
-                        <div class="border border-gray-200 rounded-lg p-4 hover:border-emerald-300 transition">
-                            <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-semibold text-gray-900"><%= log.medicineName %></h4>
-                                <span class="text-sm text-gray-500">
-                                    <%= new Date(log.administeredAt).toLocaleDateString() %>
-                                </span>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-4 text-sm">
-                                <% if (log.dosage) { %>
-                                <div>
-                                    <span class="text-gray-600">Dosage:</span>
-                                    <span class="ml-2"><%= log.dosage %></span>
-                                </div>
-                                <% } %>
-
-                                <div>
-                                    <span class="text-gray-600">Withdrawal:</span>
-                                    <span class="ml-2 font-semibold"><%= log.withdrawalDays %> days</span>
-                                </div>
-                            </div>
-
-                            <% if (log.notes) { %>
-                            <p class="text-sm text-gray-600 mt-2"><%= log.notes %></p>
-                            <% } %>
+                    <% if (animal.status==='WITHDRAWAL_LOCK' && daysRemaining> 0) { %>
+                        <div class="mb-6 bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                            <strong class="flex items-center gap-2">
+                                <span class="text-2xl">🔒</span>
+                                Withdrawal Period
+                            </strong>
+                            <p class="text-sm mt-2">
+                                <%= daysRemaining %> day(s) remaining until safe for production
+                            </p>
                         </div>
-                        <% }) %>
-                    </div>
-                    <% } %>
+                        <% } %>
+
+                            <!-- Actions -->
+                            <div class="space-y-3">
+                                <a href="/animals/<%= animal._id %>/add-medicine" class="block text-center btn-primary">
+                                    ➕ Add Medical Log
+                                </a>
+                                <button onclick="deleteAnimal()" class="w-full btn-danger">
+                                    🗑️ Delete Animal
+                                </button>
+                            </div>
                 </div>
             </div>
         </div>

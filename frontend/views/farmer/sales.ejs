@@ -78,7 +78,7 @@
 
         <!-- Orders List -->
         <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-            <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-emerald-50 to-blue-50">
+            <div class="px-6 py-6 border-b border-gray-200 bg-gradient-to-r from-emerald-50 to-blue-50">
                 <h2 class="text-2xl font-bold text-gray-900">📋 Recent Orders</h2>
             </div>
 
@@ -90,35 +90,35 @@
                 </div>
                 <% } else { %>
                     <div class="overflow-x-auto p-6">
-                        <table class="min-w-full table-fixed">
+                        <table class="min-w-full table-auto">
                             <thead class="bg-gray-50 border-b-2 border-gray-200">
                                 <tr>
                                     <th
-                                        class="w-[12%] px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                                         Order ID
                                     </th>
                                     <th
-                                        class="w-[20%] px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                                         Product
                                     </th>
                                     <th
-                                        class="w-[12%] px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                                         Quantity
                                     </th>
                                     <th
-                                        class="w-[12%] px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                                         Amount
                                     </th>
                                     <th
-                                        class="w-[14%] px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                                         Status
                                     </th>
                                     <th
-                                        class="w-[12%] px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                                         Date
                                     </th>
                                     <th
-                                        class="w-[18%] px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
@@ -127,11 +127,11 @@
                                 <% orders.forEach((order, index)=> { %>
                                     <tr
                                         class="border-b border-gray-100 hover:bg-emerald-50 transition-colors <%= index % 2 === 0 ? 'bg-white' : 'bg-gray-50' %>">
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <span class="text-sm font-bold text-gray-900">#<%=
                                                     order._id.toString().substring(0, 8).toUpperCase() %></span>
                                         </td>
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <div class="text-sm font-semibold text-gray-900 mb-1">
                                                 <%= order.productType %>
                                             </div>
@@ -139,18 +139,18 @@
                                                 🏷️ <%= order.animalTagId %>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <span class="text-sm text-gray-900 font-medium">
                                                 <%= order.quantity %>
                                                     <%= order.unit %>
                                             </span>
                                         </td>
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <span class="text-lg font-bold text-emerald-600">
                                                 ₹<%= order.totalPrice.toFixed(2) %>
                                             </span>
                                         </td>
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <% if (order.status==='pending' ) { %>
                                                 <span
                                                     class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
@@ -173,12 +173,12 @@
                                                             </span>
                                                             <% } %>
                                         </td>
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <span class="text-sm text-gray-600">
                                                 <%= new Date(order.createdAt).toLocaleDateString('en-IN') %>
                                             </span>
                                         </td>
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <% if (order.status==='pending' ) { %>
                                                 <div class="flex flex-col space-y-2">
                                                     <button onclick="updateStatus('<%= order._id %>', 'confirmed')"

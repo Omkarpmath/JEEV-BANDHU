@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Animal = require('../models/Animal');
 const MedicalLog = require('../models/MedicalLog');
+const Compliance = require('../models/Compliance');
 const { requireAuth, requireRole } = require('../middleware/auth');
 
 // GET /dashboard - Farmer dashboard with herd overview
@@ -18,6 +19,9 @@ router.get('/dashboard', requireAuth, requireRole('farmer'), async (req, res) =>
             ? (animals.reduce((sum, a) => sum + a.healthScore, 0) / animals.length).toFixed(1)
             : 100;
 
+        // Fetch biosecurity compliance score (7-day average)
+        const biosecurityScore = await Compliance.getAverageScore(req.session.userId, 7);
+
         res.render('farmer/dashboard', {
             user: { role: req.session.userRole, name: req.session.userName },
             animals,
@@ -26,7 +30,8 @@ router.get('/dashboard', requireAuth, requireRole('farmer'), async (req, res) =>
                 healthy: healthyCount,
                 locked: lockedCount,
                 quarantine: quarantineCount,
-                avgHealthScore
+                avgHealthScore,
+                biosecurityScore  // Add biosecurity score to stats
             }
         });
 
