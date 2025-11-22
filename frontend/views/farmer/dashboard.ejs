@@ -84,7 +84,7 @@
                         <div class="dropdown-content">
                             <a href="/animals/add">➕ Add Animal</a>
                             <a href="/dashboard">📊 My Animals</a>
-                            <a href="/analytics">📈 Analytics</a>
+
                             <a href="/ai-assistant">🩺 AI Diagnosis</a>
                             <a href="/guide/medicine-guide">💊 Medicine Guide</a>
                             <a href="/compliance">✅ Biosecurity</a>
@@ -504,7 +504,7 @@
             };
 
             try {
-                const response = await fetch('/api/analytics/weight', {
+                const response = await fetch('/api/animals/weight', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -513,9 +513,9 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    alert('✅ Weight recorded successfully! Page will refresh to update analytics.');
+                    alert('✅ Weight recorded successfully! Page will refresh to update dashboard.');
                     closeWeightModal();
-                    // Reload page to update analytics
+                    // Reload page to update dashboard
                     window.location.reload();
                 } else {
                     alert(`❌ ${result.error}`);
@@ -539,7 +539,7 @@
             };
 
             try {
-                const response = await fetch('/api/analytics/feed', {
+                const response = await fetch('/api/animals/feed', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -548,9 +548,9 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    alert('✅ Feed consumption recorded successfully! Page will refresh to update analytics.');
+                    alert('✅ Feed consumption recorded successfully! Page will refresh to update dashboard.');
                     closeFeedModal();
-                    // Reload page to update analytics
+                    // Reload page to update dashboard
                     window.location.reload();
                 } else {
                     alert(`❌ ${result.error}`);

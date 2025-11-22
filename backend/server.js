@@ -61,7 +61,7 @@ app.use('/guide', require('./routes/guide'));
 app.use('/', aiRoutes);
 app.use('/', require('./routes/community'));
 app.use('/', require('./routes/compliance'));
-app.use('/', require('./routes/analytics'));
+
 
 // Home route
 app.get('/', (req, res) => {

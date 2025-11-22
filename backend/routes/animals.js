@@ -3,6 +3,10 @@ const router = express.Router();
 const Animal = require('../models/Animal');
 const MedicalLog = require('../models/MedicalLog');
 const Compliance = require('../models/Compliance');
+const WeightRecord = require('../models/WeightRecord');
+const FeedRecord = require('../models/FeedRecord');
+const { getDB } = require('../config/database');
+const { ObjectId } = require('mongodb');
 const { requireAuth, requireRole } = require('../middleware/auth');
 
 // GET /dashboard - Farmer dashboard with herd overview
@@ -162,6 +166,103 @@ router.post('/animals/:id/delete', requireAuth, requireRole('farmer'), async (re
     } catch (error) {
         console.error('Delete animal error:', error);
         res.status(500).json({ success: false, error: 'Failed to delete animal' });
+    }
+});
+
+// POST: Add weight record
+router.post('/api/animals/weight', requireAuth, requireRole('farmer'), async (req, res) => {
+    try {
+        const { animalId, weight, recordedDate, notes } = req.body;
+
+        if (!animalId || !weight) {
+            return res.status(400).json({
+                success: false,
+                error: 'Animal ID and weight are required'
+            });
+        }
+
+        // Verify animal belongs to farmer
+        const db = getDB();
+        const animal = await db.collection('animals').findOne({
+            _id: new ObjectId(animalId),
+            ownerId: new ObjectId(req.session.userId)
+        });
+
+        if (!animal) {
+            return res.status(404).json({
+                success: false,
+                error: 'Animal not found'
+            });
+        }
+
+        const record = await WeightRecord.addWeightRecord({
+            animalId,
+            weight,
+            recordedDate,
+            notes
+        });
+
+        res.json({
+            success: true,
+            message: 'Weight recorded successfully',
+            record
+        });
+
+    } catch (error) {
+        console.error('❌ Error adding weight record:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to add weight record'
+        });
+    }
+});
+
+// POST: Add feed record
+router.post('/api/animals/feed', requireAuth, requireRole('farmer'), async (req, res) => {
+    try {
+        const { animalId, feedAmount, feedType, feedDate, notes } = req.body;
+
+        if (!animalId || !feedAmount) {
+            return res.status(400).json({
+                success: false,
+                error: 'Animal ID and feed amount are required'
+            });
+        }
+
+        // Verify animal belongs to farmer
+        const db = getDB();
+        const animal = await db.collection('animals').findOne({
+            _id: new ObjectId(animalId),
+            ownerId: new ObjectId(req.session.userId)
+        });
+
+        if (!animal) {
+            return res.status(404).json({
+                success: false,
+                error: 'Animal not found'
+            });
+        }
+
+        const record = await FeedRecord.addFeedRecord({
+            animalId,
+            feedAmount,
+            feedType,
+            feedDate,
+            notes
+        });
+
+        res.json({
+            success: true,
+            message: 'Feed consumption recorded successfully',
+            record
+        });
+
+    } catch (error) {
+        console.error('❌ Error adding feed record:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to add feed record'
+        });
     }
 });
 
