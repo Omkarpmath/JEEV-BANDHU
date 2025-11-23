@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "cd backend && npm start"
+  },
   "dependencies": {
     "nodemon": "^3.1.11"
   }
