@@ -38,4 +38,88 @@
   .input-field {
     @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent;
   }
+  
+  /* Glassmorphism Navigation */
+  .nav-glass {
+    @apply backdrop-blur-md;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Soft Sage Background */
+  .bg-soft-sage {
+    background-color: #e8f5e9;
+  }
+}
+
+@layer utilities {
+  /* Mobile Navigation Styles */
+  .mobile-menu {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+  
+  .mobile-menu.hidden {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .mobile-menu.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  /* Hamburger Menu Animation */
+  .hamburger span {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+}
+
+/* Mobile-specific overrides */
+@media (max-width: 768px) {
+  /* Ensure no horizontal overflow on mobile */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Make cards stack nicely on mobile */
+  .medicine-card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Ensure grid items don't overflow */
+  .grid {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Make buttons responsive */
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    @apply px-4 py-2 text-sm;
+  }
 }
